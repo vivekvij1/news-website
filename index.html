@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>INDIA CHRONICLE - Global Edition for Indian Diaspora</title>
+  
+  <!-- Google AdSense Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9115367429397437" crossorigin="anonymous"></script>
+
+  <style>
+    /* TRADITIONAL NEWSPAPER STYLING */
+    :root {
+      --paper-bg: #fdfbf7;
+      --ink-black: #111111;
+      --accent-red: #8b0000;
+      --border-gray: #333333;
+      --light-gray: #e2dfd8;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      background-color: #d8d3c7;
+      color: var(--ink-black);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      margin: 0;
+      padding: 20px 10px;
+    }
+
+    .page-wrapper {
+      max-width: 1300px;
+      margin: 0 auto 30px auto;
+      background-color: var(--paper-bg);
+      padding: 30px 40px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+      border: 1px solid #c0b9a8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP BAR & EDITION HEADER */
+    .top-info-bar {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--border-gray);
+      padding-bottom: 5px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* MASTHEAD WITH EAR PANELS */
+    .masthead-container {
+      display: grid;
+      grid-template-columns: 220px 1fr 220px;
+      gap: 15px;
+      align-items: center;
+      margin: 15px 0;
+      border-bottom: 4px double var(--border-gray);
+      padding-bottom: 15px;
+    }
+
+    .ear-panel {
+      border: 1px solid var(--border-gray);
+      background-color: #f4f0e6;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.75rem;
+      padding: 5px;
+      overflow: hidden;
+    }
+
+    .masthead-title-box {
+      text-align: center;
+    }
+
+    .masthead-title {
+      font-family: 'Times New Roman', 'Georgia', serif;
+      font-size: 3.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      margin: 0;
+      line-height: 0.9;
+    }
+
+    .masthead-subtitle {
+      font-size: 0.95rem;
+      font-style: italic;
+      margin-top: 8px;
+      letter-spacing: 1px;
+      color: #333;
+    }
+
+    /* PAGE NAVIGATION BAR */
+    .newspaper-nav {
+      background-color: var(--ink-black);
+      color: #fff;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .newspaper-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      transition: background 0.2s;
+    }
+
+    .newspaper-nav a:hover, .newspaper-nav a.active {
+      background-color: var(--accent-red);
+    }
+
+    /* COLUMN LAYOUT ENGINE */
+    .newspaper-page { display: none; flex-grow: 1; }
+    .newspaper-page.active-page { display: block; }
+
+    .grid-4-col {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .grid-3-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-2-col {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 25px;
+    }
+
+    .col-span-4 { grid-column: span 4; }
+    .col-span-3 { grid-column: span 3; }
+    .col-span-2 { grid-column: span 2; }
+
+    /* ARTICLE TYPOGRAPHY */
+    .headline-main {
+      font-size: 2.6rem;
+      font-weight: 900;
+      line-height: 1.05;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      font-family: 'Times New Roman', serif;
+    }
+
+    .headline-sub {
+      font-size: 1.6rem;
+      font-weight: bold;
+      line-height: 1.15;
+      margin: 0 0 8px 0;
+    }
+
+    .byline {
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-top: 1px solid var(--border-gray);
+      border-bottom: 1px solid var(--border-gray);
+      padding: 4px 0;
+      margin-bottom: 12px;
+      color: #444;
+    }
+
+    .article-text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      text-align: justify;
+      margin: 0;
+    }
+
+    .article-text p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      text-indent: 15px;
+    }
+
+    .article-text p:first-of-type {
+      text-indent: 0;
+    }
+
+    .article-text p:first-of-type::first-letter {
+      font-size: 3.2rem;
+      float: left;
+      line-height: 0.8;
+      padding-right: 6px;
+      padding-top: 2px;
+      font-weight: bold;
+    }
+
+    .divider-v {
+      border-right: 1px solid var(--light-gray);
+      padding-right: 15px;
+    }
+
+    .divider-h {
+      border-bottom: 1px solid var(--light-gray);
+      margin: 20px 0;
+    }
+
+    .ad-banner-horizontal {
+      background-color: #f8f8f8;
+      border: 1px dashed #aaa;
+      text-align: center;
+      padding: 10px;
+      margin: 20px 0;
+      min-height: 90px;
+    }
+
+    .ad-box-sidebar {
+      background-color: #f8f8f8;
+      border: 1px dashed #aaa;
+      text-align: center;
+      padding: 10px;
+      margin: 15px 0;
+      min-height: 250px;
+    }
+
+    /* FOOTER */
+    .page-footer {
+      border-top: 3px double var(--border-gray);
+      margin-top: 40px;
+      padding-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    @media (max-width: 900px) {
+      .masthead-container { grid-template-columns: 1fr; text-align: center; }
+      .ear-panel { display: none; }
+      .grid-4-col, .grid-3-col, .grid-2-col { grid-template-columns: 1fr; }
+      .col-span-4, .col-span-3, .col-span-2 { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- TOP INFORMATION BAR -->
+  <div class="top-info-bar">
+    <div>Vol. XXVI No. 08 | Founded Jan 2001</div>
+    <div>NEW YORK EDITION - FOR INDIAN DIASPORA</div>
+    <div>AUGUST 2026 | MONTHLY JOURNAL</div>
+  </div>
+
+  <!-- MASTHEAD WITH CUSTOM ADSENSE EAR PANELS -->
+  <div class="masthead-container">
+    
+    <!-- LEFT EAR PANEL (Google AdSense) -->
+    <div class="ear-panel">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:200px;height:90px"
+           data-ad-client="ca-pub-9115367429397437"
+           data-ad-slot="1000000001"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- MAIN TITLE -->
+    <div class="masthead-title-box">
+      <h1 class="masthead-title">INDIA CHRONICLE</h1>
+      <div class="masthead-subtitle">The Voice of Global Indians Across North America & Worldwide</div>
+    </div>
+
+    <!-- RIGHT EAR PANEL (Google AdSense) -->
+    <div class="ear-panel">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:200px;height:90px"
+           data-ad-client="ca-pub-9115367429397437"
+           data-ad-slot="1000000002"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+  </div>
+
+  <!-- NEWSPAPER PAGE NAVIGATION -->
+  <nav class="newspaper-nav">
+    <a href="#page1" onclick="showPage('page1')" class="active" id="btn-page1">Page 1: Front Page</a>
+    <a href="#page2" onclick="showPage('page2')" id="btn-page2">Page 2: Diaspora News</a>
+    <a href="#page3" onclick="showPage('page3')" id="btn-page3">Page 3: Sports</a>
+    <a href="#page4" onclick="showPage('page4')" id="btn-page4">Page 4: Art & Culture</a>
+    <a href="#page5" onclick="showPage('page5')" id="btn-page5">Page 5: World News</a>
+    <a href="#page6" onclick="showPage('page6')" id="btn-page6">Page 6: About Us</a>
+    <a href="#page7" onclick="showPage('page7')" id="btn-page7">Page 7: Contact</a>
+    <a href="#page8" onclick="showPage('page8')" id="btn-page8">Page 8: Privacy Policy</a>
+  </nav>
+
+  <!-- ================= PAGE 1: FRONT PAGE ================= -->
+  <div id="page1" class="newspaper-page active-page">
+    
+    <!-- 4 Column Headline Section -->
+    <div class="col-span-4" style="text-align: center; margin-bottom: 20px;">
+      <h2 class="headline-main">GOVERNMENT NOTIFIES HISTORIC E-OCI CARD SYSTEM; DIGITIZES ALL PASSPORT & OVERSEAS CITIZENSHIP COMPLIANCE</h2>
+      <div class="headline-sub">Paperwork eliminated as e-OCI platform goes live; Mandatory biometric consent introduced for fast-track immigration at Indian gateways.</div>
+      <div class="byline">BY VIVEK VIJ, SPECIAL CORRESPONDENT | NEW YORK</div>
+    </div>
+
+    <!-- 4 Column Article Layout -->
+    <div class="grid-4-col">
+      <div class="article-text divider-v">
+        <p>In a landmark overhaul of the Overseas Citizen of India (OCI) framework, the Union Ministry of Home Affairs has officially notified the new Citizenship Rules, introducing the fully digital Electronic OCI (e-OCI) system.</p>
+        <p>The overhaul represents one of the most comprehensive reforms to diaspora travel and immigration since the inception of the OCI status. Under the updated directives, physical OCI booklets are officially being phased out in favor of a centralized e-OCI record accessible on foreign passports.</p>
+      </div>
+
+      <div class="article-text divider-v">
+        <p>For millions of non-resident Indians and foreign citizens of Indian origin residing in the United States and Canada, the new e-OCI portal streamlines registration, passport detail updates, and address changes entirely online without requiring physical document submissions.</p>
+        <p>A major relief included in the regulation is the official removal of the requirement to re-issue OCI cards upon obtaining a new foreign passport after reaching 20 years of age. Cardholders must now simply upload updated passport details online within 90 days.</p>
+      </div>
+
+      <div class="article-text divider-v">
+        <p>Furthermore, the government has integrated biometric verification consent into the e-OCI enrollment process. This allows OCI holders to utilize automated e-Gates at major international airports across India, drastically cutting down entry wait times during peak travel seasons.</p>
+        <p>However, the new framework also establishes stricter compliance norms, including a nominal $25 fee for late passport uploads and mandatory online declarations regarding minor children holding foreign travel documents.</p>
+      </div>
+
+      <div class="article-text">
+        <p>Community leaders across North America have welcomed the transition to e-OCI, calling it a long-overdue step that reduces bureaucratic friction for families traveling back to their homeland.</p>
+        
+        <!-- Sidebar AdSense Slot -->
+        <div class="ad-box-sidebar">
+          <small style="display:block; color:#777;">ADVERTISEMENT</small>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9115367429397437"
+               data-ad-slot="2000000001"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-h"></div>
+
+    <!-- Secondary Front Page Articles -->
+    <div class="grid-3-col">
+      <div class="divider-v">
+        <h3 class="headline-sub">Rupee-Dollar Remittance Flows Reach Record $125B High</h3>
+        <div class="byline">BY RAJESH SHARMA, FINANCIAL EDITOR</div>
+        <div class="article-text">
+          <p>Inbound remittances to India from the global diaspora have smashed historical records, driven by strong economic participation from non-resident professionals in the US, Europe, and the Gulf region.</p>
+        </div>
+      </div>
+
+      <div class="divider-v">
+        <h3 class="headline-sub">Direct Flights Added Between New York and South India</h3>
+        <div class="byline">BY ANITA DESHMUKH, AVIATION CORRESPONDENT</div>
+        <div class="article-text">
+          <p>Aviation authorities have confirmed new non-stop flight paths linking JFK International Airport with Bengaluru and Hyderabad starting this winter season, responding to high passenger demand.</p>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="headline-sub">Consulate General Holds Tri-State Community Town Hall</h3>
+        <div class="byline">BY SUNIL KAPOOR, NEW YORK STAFF WRITER</div>
+        <div class="article-text">
+          <p>The Indian Consulate in Manhattan hosted over 300 community representatives to address passport renewal turnaround times, student support initiatives, and cultural exchange grants.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= PAGE 2: DIASPORA NEWS ================= -->
+  <div id="page2" class="newspaper-page">
+    <h2 class="headline-main">INDIAN DIASPORA & LOCAL COMMUNITY NEWS</h2>
+    <div class="byline">COVERING THE TRI-STATE AREA, NORTH AMERICA & GLOBAL INDIAN COMMUNITIES</div>
+    
+    <div class="grid-3-col">
+      <div class="article-text divider-v">
+        <h3 class="headline-sub">New Jersey Indian-American Parade Expects Record Turnout</h3>
+        <div class="byline">BY PRITI PATEL, LOCAL AFFAIRS EDITOR</div>
+        <p>Organizers of the annual India Day Parade in Edison and Jersey City have finalized preparations for what is billed as the largest gathering of the Indian diaspora on the US East Coast.</p>
+        <p>The event will feature cultural floats, traditional dance performances from over 15 states of India, and participation from prominent elected officials and business leaders.</p>
+      </div>
+
+      <div class="article-text divider-v">
+        <h3 class="headline-sub">Diaspora Tech Founders Launch $50M STEM Scholarship Fund</h3>
+        <div class="byline">BY AMITABH ROY, TECHNOLOGY CORRESPONDENT</div>
+        <p>A coalition of Indian-origin technology executives in Silicon Valley and New York has announced a joint $50 million endowment aimed at supporting underprivileged students pursuing higher education in computer science and engineering.</p>
+        <p>The fund will assist both high-achieving local students and international scholars arriving from Indian universities.</p>
+      </div>
+
+      <div>
+        <!-- In-Article AdSense Banner -->
+        <div class="ad-box-sidebar">
+          <small style="display:block; color:#777;">SPONSORED CONTENT</small>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9115367429397437"
+               data-ad-slot="2000000002"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <h3 class="headline-sub">Community Center Expands Free Senior Services</h3>
+        <div class="byline">BY DEEPA KULKARNI, COMMUNITY EDITOR</div>
+        <div class="article-text">
+          <p>The Indian Community Center of Queens has expanded its weekly health screening, yoga, and digital literacy programs tailored for elderly diaspora residents.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 3: SPORTS ================= -->
+  <div id="page3" class="newspaper-page">
+    <h2 class="headline-main">INDIA SPORTS CHRONICLE</h2>
+    <div class="byline">CRICKET, OLYMPIC DISCIPLINES & INTERNATIONAL ATHLETICS</div>
+    
+    <div class="grid-2-col">
+      <div>
+        <h3 class="headline-sub">India Seals Test Series Victory with Dominant Bowling Display</h3>
+        <div class="byline">BY VIKRAM RATHORE, CHIEF SPORTS EDITOR</div>
+        <div class="article-text">
+          <p>India’s pace attack delivered a masterclass performance on the final day, dismantling the opposition for 184 runs to secure an emphatic series win.</p>
+          <p>The victory solidifies India’s position at the top of the World Test Championship standings, earning widespread praise from former legends and global cricket analysts alike.</p>
+        </div>
+
+        <div class="ad-banner-horizontal">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9115367429397437"
+               data-ad-slot="3000000001"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <h3 class="headline-sub">Indian Badminton Stars Clinch Gold at Asian Open</h3>
+        <div class="byline">BY MEERA SEN, SPORTS CORRESPONDENT</div>
+        <div class="article-text">
+          <p>In a thrilling men's doubles final that stretched across three sets, India’s top-ranked shuttle pair staged a remarkable comeback to claim the gold medal in Bangkok.</p>
+        </div>
+      </div>
+
+      <div class="divider-v" style="border-right: none; border-left: 1px solid var(--light-gray); padding-left: 15px;">
+        <h3 class="headline-sub">Grandmaster Praggnanandhaa Advances to Chess World Final</h3>
+        <div class="byline">BY ARUN PRASAD, CHESS ANALYST</div>
+        <div class="article-text">
+          <p>Demonstrating flawless endgame technique, the Indian chess prodigy outmaneuvered his opponent in classical time controls to earn a spot in the championship match.</p>
+        </div>
+
+        <div class="ad-box-sidebar">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9115367429397437"
+               data-ad-slot="3000000002"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 4: ART, CULTURE & LITERATURE ================= -->
+  <div id="page4" class="newspaper-page">
+    <h2 class="headline-main">ART, CULTURE & LITERATURE</h2>
+    <div class="byline">HERITAGE, CINEMA, FINE ARTS & LITERARY REVIEWS</div>
+    
+    <div class="grid-3-col">
+      <div class="article-text divider-v">
+        <h3 class="headline-sub">Metropolitan Museum Celebrates Ancient Indian Classical Sculpture</h3>
+        <div class="byline">BY KAVITA CHAWLA, ART CRITIC</div>
+        <p>A new exhibition featuring 80 bronze and stone masterpieces from Chola and Gupta periods has officially opened in New York, drawing art historians and culture enthusiasts from across North America.</p>
+        <p>The curated gallery highlights centuries of bronze casting traditions and spiritual iconography.</p>
+      </div>
+
+      <div class="article-text divider-v">
+        <h3 class="headline-sub">New Translation of Classical Tamil Poetry Wins International Literary Award</h3>
+        <div class="byline">BY SRAYAN BANERJEE, LITERARY EDITOR</div>
+        <p>A landmark anthology translating Sangam poetry into modern English verse has been awarded the prestgious International Translation Prize, celebrating the timeless elegance of Tamil literature.</p>
+      </div>
+
+      <div>
+        <div class="ad-box-sidebar">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9115367429397437"
+               data-ad-slot="4000000001"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <h3 class="headline-sub">Sitar & Classical Fusion Concert Fills Carnegie Hall</h3>
+        <div class="byline">BY ROHIT GUPTA, MUSIC CORRESPONDENT</div>
+        <div class="article-text">
+          <p>A sold-out performance showcasing classical ragas combined with contemporary orchestral arrangements received a prolonged standing ovation from Manhattan audiences.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 5: WORLD NEWS ================= -->
+  <div id="page5" class="newspaper-page">
+    <h2 class="headline-main">WORLD NEWS DESK</h2>
+    <div class="byline">GLOBAL DIPLOMACY, INTERNATIONAL TRADE & GEOPOLITICS</div>
+    
+    <div class="grid-3-col">
+      <div class="article-text divider-v">
+        <h3 class="headline-sub">Global Summit Reaches Accord on AI Safety & Ethics Standards</h3>
+        <div class="byline">BY GEORGE MILLER, DIPLOMATIC CORRESPONDENT</div>
+        <p>Delegates from over 40 nations concluded high-level talks in Geneva, establishing shared regulatory guidelines for synthetic intelligence, data privacy, and ethical technology deployment.</p>
+      </div>
+
+      <div class="article-text divider-v">
+        <h3 class="headline-sub">India & European Union Finalize Landmark Clean Energy Trade Bilateral</h3>
+        <div class="byline">BY SANJEEV SRIVASTAVA, INTERNATIONAL TRADE DESK</div>
+        <p>Negotiators have concluded agreements to expand renewable technology transfer, hydrogen energy research, and tariff relief on green industrial goods.</p>
+      </div>
+
+      <div>
+        <h3 class="headline-sub">Global Supply Chains Stabilize as Maritime Logistics Modernize</h3>
+        <div class="byline">BY HELEN CLARKE, FOREIGN AFFAIRS DESK</div>
+        <div class="article-text">
+          <p>Major international ports report record container processing speeds, aided by automated scheduling and modernized customs clearance protocols.</p>
+        </div>
+
+        <div class="ad-box-sidebar">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9115367429397437"
+               data-ad-slot="5000000001"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 6: ABOUT US (REQUIRED FOR ADSENSE) ================= -->
+  <div id="page6" class="newspaper-page">
+    <h2 class="headline-main">ABOUT INDIA CHRONICLE</h2>
+    <div class="byline">PUBLISHING HISTORY & EDITORIAL MANDATE</div>
+    
+    <div class="grid-2-col">
+      <div class="article-text">
+        <p><strong>INDIA CHRONICLE</strong> is an independent, monthly journal published out of New York City, dedicated to serving the Indian diaspora across North America and around the globe. Founded in <strong>January 2001</strong>, the publication offers comprehensive coverage of diaspora affairs, foreign policy, culture, business, and athletic achievements.</p>
+        <p>Our editorial mission is to build a reliable bridge of information between India and millions of non-resident Indians (NRIs) and Persons of Indian Origin (PIOs) residing abroad, maintaining traditional journalistic values of accuracy, neutrality, and thorough reporting.</p>
+        
+        <h3 class="headline-sub" style="margin-top: 30px;">Editorial Leadership</h3>
+        <ul>
+          <li><strong>Publisher & Managing Editor:</strong> Vivek Vij</li>
+          <li><strong>Special Correspondent:</strong> Vivek Vij</li>
+          <li><strong>Diaspora & Community Bureau Chief:</strong> Priti Patel</li>
+          <li><strong>Sports Desk Chief:</strong> Vikram Rathore</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="ad-box-sidebar">
+          <small style="display:block; color:#777;">ADVERTISEMENT</small>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9115367429397437"
+               data-ad-slot="6000000001"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 7: CONTACT US (REQUIRED FOR ADSENSE) ================= -->
+  <div id="page7" class="newspaper-page">
+    <h2 class="headline-main">CONTACT EDITORIAL DESK</h2>
+    <div class="byline">REACH OUR NEW YORK HEADQUARTERS & BUREAU OFFICES</div>
+    
+    <div class="grid-2-col">
+      <div class="article-text">
+        <p>We welcome press releases, editorial feedback, letters to the editor, and advertising inquiries from our global readership.</p>
+
+        <h3 class="headline-sub">New York Headquarters</h3>
+        <p><strong>India Chronicle Media Group</strong><br/>
+        New York, NY 10001, United States<br/>
+        <strong>Email:</strong> editor@indiachronicle.com<br/>
+        <strong>Editorial Phone:</strong> +1 (212) 555-0198</p>
+
+        <h3 class="headline-sub">Google AdSense Publisher Reference</h3>
+        <p><strong>Publisher ID:</strong> pub-9115367429397437<br/>
+        <strong>Customer ID:</strong> 6347743223</p>
+      </div>
+
+      <div>
+        <div class="ad-box-sidebar">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-9115367429397437"
+               data-ad-slot="7000000001"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 8: PRIVACY POLICY (REQUIRED FOR ADSENSE) ================= -->
+  <div id="page8" class="newspaper-page">
+    <h2 class="headline-main">PRIVACY POLICY & TERMS OF SERVICE</h2>
+    <div class="byline">LAST UPDATED: AUGUST 2026</div>
+    
+    <div class="article-text" style="max-width: 900px;">
+      <p>At <strong>India Chronicle</strong> (accessible via github.io and connected domains), the privacy of our visitors is of extreme importance to us. This Privacy Policy document outlines the types of personal information received and collected by India Chronicle and how it is used.</p>
+      
+      <h3 class="headline-sub">Google AdSense & DoubleClick DART Cookies</h3>
+      <p>Google, as a third-party vendor, uses cookies to serve ads on India Chronicle. Google's use of advertising cookies enables it and its partners to serve ads to users based on their visit to our site and/or other sites on the Internet.</p>
+      <p>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank">Google Ad Settings</a>.</p>
+
+      <h3 class="headline-sub">Log Files</h3>
+      <p>Like many other web sites, India Chronicle makes use of log files. The information inside the log files includes internet protocol (IP) addresses, type of browser, Internet Service Provider (ISP), date/time stamp, referring/exit pages, and number of clicks to analyze trends, administer the site, track user movement around the site, and gather demographic information.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <div>© 2001 - 2026 INDIA CHRONICLE MEDIA GROUP. ALL RIGHTS RESERVED.</div>
+    <div>PUBLISHED FROM NEW YORK CITY</div>
+  </div>
+
+</div>
+
+<!-- JAVASCRIPT FOR MULTI-PAGE NAVIGATION -->
+<script>
+  function showPage(pageId) {
+    // Hide all pages
+    const pages = document.querySelectorAll('.newspaper-page');
+    pages.forEach(page => page.classList.remove('active-page'));
+
+    // Remove active class from buttons
+    const navButtons = document.querySelectorAll('.newspaper-nav a');
+    navButtons.forEach(btn => btn.classList.remove('active'));
+
+    // Show selected page
+    document.getElementById(pageId).classList.add('active-page');
+    document.getElementById('btn-' + pageId).classList.add('active');
+
+    // Scroll to top
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+</script>
+
+</body>
+</html>
